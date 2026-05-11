@@ -1373,9 +1373,9 @@ function renderCard(card, pid) {
   ].map(([v,l])=>`<option value="${v}"${curQl===v?' selected':''}>${l}</option>`).join('');
   const nnOpts = ['1 张','2 张','3 张','4 张']
     .map(l=>`<option${curNn===l?' selected':''}>${l}</option>`).join('');
-  const promptJson = JSON.stringify(p.text || '');
+  const safePrompt = (p.text || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;');
   const thumbs = (p.images||[]).map(iid => `
-    <div class="img-result-item" onclick="openLb('${iid}',${promptJson})">
+    <div class="img-result-item" onclick="openLb('${iid}',this.dataset.prompt)" data-prompt="${safePrompt}">
       <img src="/api/image/${SID}/${iid}" loading="lazy">
       <div class="img-overlay">
         <a href="/api/image/${SID}/${iid}/download" download
